@@ -1,8 +1,6 @@
 const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
 const bcrypt = require("bcryptjs")
-const { decl } = require("postcss")
-const { get } = require("../backend/server/routes/authRoute")
 
 async function addUserToDataBase(
   firstName,
