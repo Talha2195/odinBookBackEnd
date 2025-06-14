@@ -6,7 +6,7 @@ const passport = require("passport")
 const authRoutes = require("./server/routes/authRoute")
 const postRouter = require("./server/routes/postRoutes")
 const getRouter = require("./server/routes/getRoutes")
-const RedisStore = require("connect-redis")
+const RedisStore = require("connect-redis").default
 const redis = require("redis")
 
 const redisClient = redis.createClient({
