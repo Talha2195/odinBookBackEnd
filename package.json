@@ -24,9 +24,10 @@
     "express-validator": "^7.2.1",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",
+    "postcss": "^8.5.5",
+    "prisma": "^6.9.0",
     "redis": "^4.7.0",
-    "vcryptjs": "^1.2.0",
-    "prisma": "^6.9.0"
+    "vcryptjs": "^1.2.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
