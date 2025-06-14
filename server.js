@@ -6,6 +6,13 @@ const passport = require("passport")
 const authRoutes = require("./server/routes/authRoute")
 const postRouter = require("./server/routes/postRoutes")
 const getRouter = require("./server/routes/getRoutes")
+const RedisStore = require("connect-redis").default
+const { createClient } = require("redis")
+
+const redisClient = createClient({
+  url: process.env.REDIS_URL,
+})
+redisClient.connect().catch(console.error)
 
 const {
   githubAuth,
@@ -26,11 +33,12 @@ app.use(bodyParser.json())
 
 app.use(
   session({
+    store: new RedisStore({ client: redisClient }),
     secret: process.env.SESSION_SECRET || "your-secret-key",
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false,
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       maxAge: 3600000,
     },
