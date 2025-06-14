@@ -7,10 +7,13 @@ const authRoutes = require("./server/routes/authRoute")
 const postRouter = require("./server/routes/postRoutes")
 const getRouter = require("./server/routes/getRoutes")
 const RedisStore = require("connect-redis").default
-const { createClient } = require("redis")
+const redis = require("redis")
 
-const redisClient = createClient({
+const redisClient = redis.createClient({
   url: process.env.REDIS_URL,
+  socket: {
+    tls: true,
+  },
 })
 redisClient.connect().catch(console.error)
 
@@ -38,7 +41,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       httpOnly: true,
       maxAge: 3600000,
     },
