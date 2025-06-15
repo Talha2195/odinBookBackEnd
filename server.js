@@ -30,6 +30,8 @@ const corsOptions = {
 app.use(cors(corsOptions))
 app.use(bodyParser.json())
 
+app.set("trust proxy", 1)
+
 app.use(
   session({
     store: new RedisStore({ client: redisClient }),
