@@ -15,4 +15,4 @@ function restrictToRoles(allowedRoles) {
   }
 }
 
-module.exports = restrictToRoles
+export default restrictToRoles

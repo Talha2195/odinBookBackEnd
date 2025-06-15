@@ -1,9 +1,10 @@
-const express = require("express")
+import express from "express"
+import * as controller from "../../controllers/controllers.js"
+import { signUpVal } from "../validators/signUpVal.js"
+import authMiddleware from "../../authMiddleware.js"
+import restrictToRoles from "../../roleBasedAuth.js"
+
 const postRouter = express.Router()
-const controller = require("../../controllers/controllers")
-const { signUpVal } = require("../validators/signUpVal")
-const authMiddleware = require("../../authMiddleware")
-const restrictToRoles = require("../../roleBasedAuth")
 
 postRouter.post("/signup", signUpVal, controller.signUserUp)
 postRouter.post("/login", controller.logUserIn)
@@ -61,4 +62,4 @@ postRouter.post(
   controller.editProfile
 )
 
-module.exports = postRouter
+export default postRouter

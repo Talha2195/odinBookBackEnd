@@ -1,8 +1,9 @@
-const express = require("express")
+import express from "express"
+import * as controller from "../../controllers/controllers.js"
+import authMiddleware from "../../authMiddleware.js"
+import restrictToRoles from "../../roleBasedAuth.js"
+
 const getRouter = express.Router()
-const controller = require("../../controllers/controllers")
-const authMiddleware = require("../../authMiddleware")
-const restrictToRoles = require("../../roleBasedAuth")
 
 getRouter.get(
   "/profile",
@@ -31,4 +32,4 @@ getRouter.get(
   controller.handleGuestUser
 )
 
-module.exports = getRouter
+export default getRouter

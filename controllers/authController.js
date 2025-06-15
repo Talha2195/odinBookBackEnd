@@ -1,6 +1,6 @@
-const passport = require("passport")
-const GitHubStrategy = require("passport-github2").Strategy
-const db = require("../db/prismaClient")
+import passport from "passport"
+import { Strategy as GitHubStrategy } from "passport-github2"
+import * as db from "../db/prismaClient.js"
 
 passport.use(
   new GitHubStrategy(
@@ -47,9 +47,9 @@ passport.deserializeUser(async (id, done) => {
   }
 })
 
-githubAuth = passport.authenticate("github")
+export const githubAuth = passport.authenticate("github")
 
-githubCallback = (req, res, next) => {
+export const githubCallback = (req, res, next) => {
   passport.authenticate("github", (err, user) => {
     if (err || !user) {
       return res.redirect("http://localhost:3000/loginPage")
@@ -63,9 +63,4 @@ githubCallback = (req, res, next) => {
       res.redirect("http://localhost:3000/profile")
     })
   })(req, res, next)
-}
-
-module.exports = {
-  githubAuth,
-  githubCallback,
 }

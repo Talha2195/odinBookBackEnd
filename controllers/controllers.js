@@ -1,10 +1,10 @@
-db = require("../db/prismaClient")
-const bcrypt = require("bcrypt")
-const { validationResult } = require("express-validator")
-const fs = require("fs")
-const path = require("path")
+import * as db from "../db/prismaClient.js"
+import bcrypt from "bcrypt"
+import { validationResult } from "express-validator"
+import fs from "fs"
+import path from "path"
 
-async function signUserUp(req, res) {
+export async function signUserUp(req, res) {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     return res.status(400).json({
@@ -36,7 +36,7 @@ async function signUserUp(req, res) {
   }
 }
 
-async function logUserIn(req, res) {
+export async function logUserIn(req, res) {
   const { username, password } = req.body
 
   try {
@@ -75,7 +75,7 @@ async function logUserIn(req, res) {
   }
 }
 
-async function loadUserProfile(req, res) {
+export async function loadUserProfile(req, res) {
   try {
     const userId = req.user.id
 
@@ -131,7 +131,7 @@ async function loadUserProfile(req, res) {
   }
 }
 
-async function sendFreidnRequest(req, res) {
+export async function sendFreidnRequest(req, res) {
   const { friendName } = req.body
   const userId = req.user.id
   try {
@@ -155,7 +155,7 @@ async function sendFreidnRequest(req, res) {
   }
 }
 
-async function logUserOut(req, res) {
+export async function logUserOut(req, res) {
   req.session.destroy((err) => {
     if (err) {
       return res.status(500).json({
@@ -171,7 +171,7 @@ async function logUserOut(req, res) {
   })
 }
 
-async function acceptRequest(req, res) {
+export async function acceptRequest(req, res) {
   const { requestId } = req.body
   try {
     result = await db.acceptFriendRequest(requestId)
@@ -194,7 +194,7 @@ async function acceptRequest(req, res) {
   }
 }
 
-async function declineRequest(req, res) {
+export async function declineRequest(req, res) {
   const { requestId } = req.body
   try {
     result = await db.declineFriendRequest(requestId)
@@ -217,7 +217,7 @@ async function declineRequest(req, res) {
   }
 }
 
-async function userPostController(req, res) {
+export async function userPostController(req, res) {
   const { post } = req.body
   const userId = req.user?.id
 
@@ -244,7 +244,7 @@ async function userPostController(req, res) {
   }
 }
 
-async function likeRequest(req, res) {
+export async function likeRequest(req, res) {
   const { postId } = req.body
   const userId = req.user?.id
 
@@ -273,7 +273,7 @@ async function likeRequest(req, res) {
   }
 }
 
-async function commentRequest(req, res) {
+export async function commentRequest(req, res) {
   const { postId, comment } = req.body
   const userId = req.user.id
   try {
@@ -297,7 +297,7 @@ async function commentRequest(req, res) {
   }
 }
 
-async function commentHeart(req, res) {
+export async function commentHeart(req, res) {
   const { commentId } = req.body
   const userId = req.user.id
   try {
@@ -321,7 +321,7 @@ async function commentHeart(req, res) {
   }
 }
 
-async function editProfile(req, res) {
+export async function editProfile(req, res) {
   const { firstName, lastName, bio } = req.body
   const userId = req.user.id
   try {
@@ -350,7 +350,7 @@ async function editProfile(req, res) {
   }
 }
 
-async function getAllUsers(req, res) {
+export async function getAllUsers(req, res) {
   const userId = req.user?.id
   const userRole = req.user?.role
 
@@ -382,7 +382,7 @@ async function getAllUsers(req, res) {
   }
 }
 
-async function getAllFollowers(req, res) {
+export async function getAllFollowers(req, res) {
   const userId = req.user.user?.id
   try {
     const followers = await db.getAllFollowRequests(userId)
@@ -405,7 +405,7 @@ async function getAllFollowers(req, res) {
   }
 }
 
-async function handleGuestUser(req, res) {
+export async function handleGuestUser(req, res) {
   try {
     const guestUser = {
       id: "guest",
@@ -439,22 +439,4 @@ async function handleGuestUser(req, res) {
       message: "Internal server error",
     })
   }
-}
-
-module.exports = {
-  signUserUp,
-  logUserIn,
-  loadUserProfile,
-  logUserOut,
-  sendFreidnRequest,
-  acceptRequest,
-  declineRequest,
-  userPostController,
-  likeRequest,
-  commentRequest,
-  commentHeart,
-  editProfile,
-  getAllUsers,
-  getAllFollowers,
-  handleGuestUser,
 }

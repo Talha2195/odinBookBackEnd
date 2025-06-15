@@ -1,6 +1,6 @@
-const { body } = require("express-validator")
+import { body } from "express-validator"
 
-const signUpVal = [
+export const signUpVal = [
   body("username")
     .trim()
     .notEmpty()
@@ -26,7 +26,3 @@ const signUpVal = [
     .custom((value, { req }) => value === req.body.password)
     .withMessage("Password and confirm password must match"),
 ]
-
-module.exports = {
-  signUpVal,
-}

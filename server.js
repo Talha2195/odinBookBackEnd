@@ -1,13 +1,15 @@
-const express = require("express")
-const cors = require("cors")
-const bodyParser = require("body-parser")
-const session = require("express-session")
-const passport = require("passport")
-const authRoutes = require("./server/routes/authRoute")
-const postRouter = require("./server/routes/postRoutes")
-const getRouter = require("./server/routes/getRoutes")
-const RedisStore = require("connect-redis").default
-const redis = require("redis")
+import express from "express"
+import cors from "cors"
+import bodyParser from "body-parser"
+import session from "express-session"
+import passport from "passport"
+import authRoutes from "./server/routes/authRoute.js"
+import postRouter from "./server/routes/postRoutes.js"
+import getRouter from "./server/routes/getRoutes.js"
+import { RedisStore } from "connect-redis"
+import redis from "redis"
+import { githubAuth, githubCallback } from "./controllers/authController.js"
+import { loadUserProfile } from "./controllers/controllers.js"
 
 const redisClient = redis.createClient({
   url: process.env.REDIS_URL,
@@ -16,12 +18,6 @@ const redisClient = redis.createClient({
   },
 })
 redisClient.connect().catch(console.error)
-
-const {
-  githubAuth,
-  githubCallback,
-  loadUserProfile,
-} = require("./controllers/authController")
 
 const app = express()
 const port = process.env.PORT || 5000

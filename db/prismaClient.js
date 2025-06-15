@@ -1,8 +1,8 @@
-const { PrismaClient } = require("@prisma/client")
+import { PrismaClient } from "@prisma/client"
+import bcrypt from "bcryptjs"
 const prisma = new PrismaClient()
-const bcrypt = require("bcryptjs")
 
-async function addUserToDataBase(
+export async function addUserToDataBase(
   firstName,
   lastName,
   username,
@@ -42,7 +42,7 @@ async function addUserToDataBase(
   }
 }
 
-async function findUser(username) {
+export async function findUser(username) {
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -61,7 +61,7 @@ async function findUser(username) {
   }
 }
 
-async function findUserById(userId) {
+export async function findUserById(userId) {
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -284,7 +284,7 @@ async function findUserById(userId) {
   }
 }
 
-async function sendFriendRequest(senderId, receiverId) {
+export async function sendFriendRequest(senderId, receiverId) {
   try {
     const existingRequest = await prisma.friendRequest.findFirst({
       where: {
@@ -311,7 +311,7 @@ async function sendFriendRequest(senderId, receiverId) {
   }
 }
 
-async function acceptFriendRequest(requestId) {
+export async function acceptFriendRequest(requestId) {
   try {
     const friendRequest = await prisma.friendRequest.update({
       where: {
@@ -344,7 +344,7 @@ async function acceptFriendRequest(requestId) {
   }
 }
 
-async function declineFriendRequest(requestId) {
+export async function declineFriendRequest(requestId) {
   try {
     await prisma.friendRequest.delete({
       where: {
@@ -356,7 +356,7 @@ async function declineFriendRequest(requestId) {
   }
 }
 
-async function createPost(userId, content) {
+export async function createPost(userId, content) {
   try {
     const newPost = await prisma.post.create({
       data: {
@@ -377,7 +377,7 @@ async function createPost(userId, content) {
   }
 }
 
-async function likePost(userId, postId) {
+export async function likePost(userId, postId) {
   try {
     await prisma.dislike.deleteMany({
       where: {
@@ -439,7 +439,7 @@ async function likePost(userId, postId) {
   }
 }
 
-async function commentPost(userId, postId, comment) {
+export async function commentPost(userId, postId, comment) {
   try {
     const newComment = await prisma.comment.create({
       data: {
@@ -455,7 +455,7 @@ async function commentPost(userId, postId, comment) {
   }
 }
 
-async function commentHeart(commentId, userId) {
+export async function commentHeart(commentId, userId) {
   try {
     const existingLike = await prisma.commentLike.findFirst({
       where: {
@@ -486,7 +486,7 @@ async function commentHeart(commentId, userId) {
   }
 }
 
-async function updateUserProfile(
+export async function updateUserProfile(
   userId,
   firstName,
   lastName,
@@ -512,7 +512,7 @@ async function updateUserProfile(
   }
 }
 
-async function getAllUsers(userId) {
+export async function getAllUsers(userId) {
   try {
     const users = await prisma.user.findMany({
       where: {
@@ -538,7 +538,7 @@ async function getAllUsers(userId) {
   }
 }
 
-async function getAllFollowRequests(userId) {
+export async function getAllFollowRequests(userId) {
   try {
     const sentRequests = await prisma.friendRequest.findMany({
       where: {
@@ -556,7 +556,7 @@ async function getAllFollowRequests(userId) {
   }
 }
 
-async function findGuestUser() {
+export async function findGuestUser() {
   try {
     const guestUser = await prisma.user.findFirst({
       where: {
@@ -571,7 +571,7 @@ async function findGuestUser() {
   }
 }
 
-async function fetchGuestUserData() {
+export async function fetchGuestUserData() {
   try {
     const allPosts = await prisma.post.findMany({
       include: {
@@ -632,7 +632,7 @@ async function fetchGuestUserData() {
   }
 }
 
-async function getUsersForGuest() {
+export async function getUsersForGuest() {
   try {
     const users = await prisma.user.findMany({
       where: {
@@ -653,22 +653,4 @@ async function getUsersForGuest() {
     console.error("Error fetching users for guest:", error)
     throw error
   }
-}
-module.exports = {
-  addUserToDataBase,
-  findUser,
-  findUserById,
-  sendFriendRequest,
-  acceptFriendRequest,
-  declineFriendRequest,
-  createPost,
-  likePost,
-  commentPost,
-  commentHeart,
-  updateUserProfile,
-  getAllUsers,
-  getAllFollowRequests,
-  findGuestUser,
-  fetchGuestUserData,
-  getUsersForGuest,
 }
