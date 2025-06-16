@@ -7,7 +7,7 @@ passport.use(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: "http://localhost:5000/auth/github/callback",
+      callbackURL: "https://odinbookbackend.onrender.com/auth/github/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -52,15 +52,15 @@ export const githubAuth = passport.authenticate("github")
 export const githubCallback = (req, res, next) => {
   passport.authenticate("github", (err, user) => {
     if (err || !user) {
-      return res.redirect("http://localhost:3000/loginPage")
+      return res.redirect("https://odin-book-front-end-ikcw.vercel.app")
     }
 
     req.logIn(user, (err) => {
       if (err) {
-        return res.redirect("http://localhost:3000/loginPage")
+        return res.redirect("https://odin-book-front-end-ikcw.vercel.app")
       }
       req.session.user = user
-      res.redirect("http://localhost:3000/profile")
+      res.redirect("https://odin-book-front-end-ikcw.vercel.app/profile")
     })
   })(req, res, next)
 }
