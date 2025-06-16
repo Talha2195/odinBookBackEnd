@@ -22,8 +22,19 @@ redisClient.connect().catch(console.error)
 const app = express()
 const port = process.env.PORT || 5000
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://odin-book-front-end-ikcw.vercel.app",
+]
+
 const corsOptions = {
-  origin: process.env.FRONTEND_ORIGIN || "http://localhost:3000",
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error("Not allowed by CORS"))
+    }
+  },
   credentials: true,
 }
 
