@@ -24,13 +24,12 @@ const port = process.env.PORT || 5000
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://odin-book-front-end-ikcw.vercel.app",
-]
+  process.env.FRONTEND_ORIGIN,
+].filter(Boolean)
 
 function isAllowedOrigin(origin) {
   if (!origin) return false
-  if (allowedOrigins.includes(origin)) return true
-  return /^https:\/\/odin-book-front-end-ikcw.*\.vercel\.app$/.test(origin)
+  return allowedOrigins.includes(origin)
 }
 
 const corsOptions = {
