@@ -27,6 +27,12 @@ const allowedOrigins = [
   "https://odin-book-front-end-ikcw.vercel.app",
 ]
 
+function isAllowedOrigin(origin) {
+  if (!origin) return false
+  if (allowedOrigins.includes(origin)) return true
+  return /^https:\/\/odin-book-front-end-ikcw.*\.vercel\.app$/.test(origin)
+}
+
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
