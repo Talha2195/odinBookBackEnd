@@ -24,7 +24,9 @@ const port = process.env.PORT || 5000
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://odin-book-front-end-ikcw.vercel.app",
+  "https://odin-book-front-end-6ifm.vercel.app",
+  "https://odin-book-front-end-6ifm-git-main-talhas-projects-13e3f90d.vercel.app",
+  "https://odin-book-front-end-6ifm-d1g58x18n-talhas-projects-13e3f90d.vercel.app",
 ]
 
 function isAllowedOrigin(origin) {
