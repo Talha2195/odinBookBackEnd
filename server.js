@@ -28,7 +28,7 @@ const allowedOrigins = [
 ]
 
 function isAllowedOrigin(origin) {
-  if (!origin) return false
+  if (!origin) return true
   if (allowedOrigins.includes(origin)) return true
   return /^https:\/\/odin-book-front-end-ikcw.*\.vercel\.app$/.test(origin)
 }
