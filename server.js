@@ -24,19 +24,22 @@ const port = process.env.PORT || 5000
 
 const allowedOrigins = [
   "http://localhost:3000",
-  process.env.FRONTEND_ORIGIN,
-].filter(Boolean)
+  "https://odin-book-front-end-ikcw.vercel.app",
+]
 
 function isAllowedOrigin(origin) {
   if (!origin) return false
-  return allowedOrigins.includes(origin)
+  if (allowedOrigins.includes(origin)) return true
+  return /^https:\/\/odin-book-front-end-ikcw.*\.vercel\.app$/.test(origin)
 }
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || isAllowedOrigin(origin)) {
+    console.log("Incoming origin:", origin)
+    if (isAllowedOrigin(origin)) {
       callback(null, true)
     } else {
+      console.error("Not allowed by CORS:", origin)
       callback(new Error("Not allowed by CORS: " + origin))
     }
   },
